@@ -3,22 +3,24 @@ import React, {
 } from 'react';
 
 import ReactNative, {
+  Platform,
    View,
    Image,
-   Text,
    StyleSheet,
    TouchableOpacity,
    ListView
  } from 'react-native';
 
  import {
-  Header, Title, Button, Icon
+  ListItem, Header, Title, Button, Icon, Text,
 } from 'native-base';
 
 var ParallaxScrollView = require('react-native-parallax-scroll-view');
 
 import Dimensions from 'Dimensions';
 let windowWidth = Dimensions.get('window').width;
+
+var DIAS = ['10 JUL','11 JUL','12 JUL','13 JUL']
 
 
 class FestaDetail extends Component {
@@ -27,25 +29,40 @@ class FestaDetail extends Component {
     this.state =  {
       navigator: props.navigator,
       dataSource: new ListView.DataSource({
+        sectionHeaderHasChanged: (r1, r2) => r1 !== r2,
         rowHasChanged: (r1, r2) => r1 !== r2
-      }).cloneWithRows([
+      }).cloneWithRowsAndSections([[
+        '20:00 - Abertura',
+        '21:00 - Concerto',
+        '22:30 - Cenas maradas',
+        '23:45 - Fechadura'
+      ], [
+        '20:00 - Abertura',
+        '23:30 - Outras cenas',
+        '23:30 - Outras cenas'
+      ], [
+        '20:00 - Abertura',
+        '21:00 - Concerto',
+        '22:30 - Cenas maradas',
+        '23:30 - Outras cenas'
+      ], [
         '20:00 - Abertura',
         '21:00 - Concerto',
         '22:30 - Cenas maradas',
         '23:00 - Mais Cenas',
         '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:30 - Outras cenas',
-        '23:45 - Fechadura'
-      ])
+        '00:00 - Fogo de Artifício'
+      ]])
     };
+  }
+
+  renderSectionHeader(data, sectionId) {
+    var text;
+    return (
+      <ListItem itemDivider>
+          <Text>{DIAS[sectionId]}</Text>
+      </ListItem>
+    );
   }
 
   render() {
@@ -63,6 +80,7 @@ class FestaDetail extends Component {
             </Text>
           </View>
          )}
+         renderSectionHeader={this.renderSectionHeader}
         renderScrollComponent={props => (
           <ParallaxScrollView
             onScroll={onScroll}
@@ -129,7 +147,7 @@ const window = Dimensions.get('window');
 const AVATAR_SIZE = 90; //original: 120
 const ROW_HEIGHT = 60;
 const PARALLAX_HEADER_HEIGHT = 300;
-const STICKY_HEADER_HEIGHT = 64;
+const STICKY_HEADER_HEIGHT = 56;
 
 const styles = StyleSheet.create({
   container: {
@@ -157,9 +175,15 @@ const styles = StyleSheet.create({
     margin: 10
   },
   fixedSection: {
-    bottom: 35,
-    right: -5,
-    borderRadius: 10,
+    ...Platform.select({
+      ios: {
+        bottom: 25
+      },
+      android: {
+        bottom: 40
+      },
+    }),
+    right: -5
   },
   fixedSectionText: {
     color: '#999',
