@@ -8,15 +8,21 @@ import React, {
 
 import ReactNative, {
   AppRegistry,
+  Platform,
   StyleSheet,
   View,
   TextInput,
   Image,
   TouchableOpacity,
-  Picker
+  PickerIOS
  } from 'react-native';
 
  import { Text } from 'native-base';
+
+ import PickerAndroid from 'react-native-picker-android';
+
+let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
+let PickerItem = Picker.Item;
 
 var Home = React.createClass({
   getInitialState: function() {
@@ -32,12 +38,14 @@ var Home = React.createClass({
   render() {
     return (
         <View style={styles.container}>
-            <Image style={styles.bg} source={require('./bg.jpg')} />
+            <Image style={styles.bg} source={require('./bg4.jpg')} />
             <View style={styles.header}>
-                <Image style={styles.mark} source={require('./logo.jpg')} />
+                <Image style={styles.mark} source={require('./ptlogo.png')} />
             </View>
                 <View style={styles.inputContainer}>
                     <Picker
+                      itemStyle={{fontSize: 24, color: 'white'}}
+                      style={styles.picker}
                       selectedValue={this.state.language}
                       onValueChange={(lang) => this.setState({language: lang})}>
                       <Picker.Item label="Selecione um Distrito" value="" />
@@ -48,7 +56,7 @@ var Home = React.createClass({
                 </View>
             <TouchableOpacity onPress={this.onPressEvent}>
               <View style={styles.signin}>
-                  <Text>Vamos!</Text>
+                  <Text style={styles.whiteFont}>PROCURAR</Text>
               </View>
             </TouchableOpacity>
             <View style={styles.signup}>
@@ -82,7 +90,7 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#E1E1E1',
+        backgroundColor: '#336B87',
         padding: 20,
         alignItems: 'center'
     },
@@ -105,8 +113,6 @@ var styles = StyleSheet.create({
       height: 20
     },
     inputContainer: {
-        borderWidth: 1,
-        borderBottomColor: '#CCC',
         borderColor: 'transparent'
     },
     input: {
@@ -125,7 +131,19 @@ var styles = StyleSheet.create({
       color: '#D8D8D8'
     },
     whiteFont: {
-      color: '#FFF'
+      color: '#FFF',
+      fontSize: 16,
+      fontWeight: 'bold'
+    },
+    picker: {
+      ...Platform.select({
+        ios: {
+
+        },
+        android: {
+          color:'white'
+        },
+      }),
     }
 })
 module.exports = Home;

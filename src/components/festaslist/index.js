@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+
+import ReactNative, {
+   TouchableOpacity,
+   Image
+ } from 'react-native';
+
 import { Container, Content, List, ListItem, Thumbnail, Text,
          Header, Icon, Button, Title} from 'native-base';
 
@@ -7,11 +13,24 @@ var FestasList = React.createClass({
         this.props.navigator.push({name: 'festa'});
     },
 
+    onHomePress(){
+        this.props.navigator.pop();
+    },
+
     render() {
         return (
             <Container>
-                <Header>
+                <Header style={{backgroundColor: '#336B87'}}>
+                    <Button transparent onPress={this.onHomePress}>
+                        <Image source={require('./home.png')}  style={{ width: 27, height: 27}} />
+                    </Button>
+
                     <Title>Distrito de Setúbal</Title>
+
+                    <Button transparent onPress={this.onHomePress}>
+                        <Image source={require('./home.png')}  style={{ width: 0, height: 0}} />
+                    </Button>
+
                 </Header>
 
                 <Content>

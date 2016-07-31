@@ -20,7 +20,8 @@ var ParallaxScrollView = require('react-native-parallax-scroll-view');
 import Dimensions from 'Dimensions';
 let windowWidth = Dimensions.get('window').width;
 
-var DIAS = ['10 JUL','11 JUL','12 JUL','13 JUL']
+var DIAS = ['10 JUL','11 JUL','12 JUL','13 JUL'];
+var BACK = " <- ";
 
 
 class FestaDetail extends Component {
@@ -92,7 +93,7 @@ class FestaDetail extends Component {
 
             renderBackground={() => (
               <View key="background">
-                <Image source={{uri: 'https://dncache-mauganscorp.netdna-ssl.com/thumbseg/735/735646-bigthumbnail.jpg',
+                <Image source={{uri: 'https://static.pexels.com/photos/30732/pexels-photo-30732.jpg',
                                 width: window.width,
                                 height: PARALLAX_HEADER_HEIGHT}}/>
                 <View style={{position: 'absolute',
@@ -120,19 +121,16 @@ class FestaDetail extends Component {
             )}
 
             renderStickyHeader={() => (
-              <Header>
-
-
+              <Header style={{backgroundColor: '#336B87'}}>
                 <Title>Baixa da Banheira</Title>
               </Header>
             )}
 
             renderFixedHeader={() => (
                 <View key="fixed-header" style={styles.fixedSection}>
-                  <Text style={styles.fixedSectionText}
-                        onPress={ (onPress) => this.state.navigator.pop()}>
-                    Back
-                  </Text>
+                  <TouchableOpacity onPress={(onPress) => {this.state.navigator.pop()}}>
+                    <Image source={require('./back3.png')}  style={{ width: 30, height: 30}} />
+                  </TouchableOpacity>
                 </View>
             )}/>
         )}
@@ -177,13 +175,13 @@ const styles = StyleSheet.create({
   fixedSection: {
     ...Platform.select({
       ios: {
-        bottom: 25
+        bottom: 30
       },
       android: {
         bottom: 40
       },
     }),
-    right: -5
+    right: -10
   },
   fixedSectionText: {
     color: '#999',
